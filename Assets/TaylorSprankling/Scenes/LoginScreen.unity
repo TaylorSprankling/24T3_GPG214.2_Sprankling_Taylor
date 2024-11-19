@@ -2346,7 +2346,7 @@ MonoBehaviour:
   logInButton: {fileID: 28624178}
   signOutButton: {fileID: 625610615}
   backButton: {fileID: 916502695}
-  useDefaultCredentials: 1
+  useDefaultCredentials: 0
   simulateNoInternet: 0
 --- !u!4 &1248617857
 Transform:

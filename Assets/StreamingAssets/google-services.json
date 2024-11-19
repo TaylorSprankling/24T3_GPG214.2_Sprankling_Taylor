@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "916066142959",
+    "firebase_url": "https://gpg214project2firebase-default-rtdb.firebaseio.com",
+    "project_id": "gpg214project2firebase",
+    "storage_bucket": "gpg214project2firebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:916066142959:android:0925eb50a9a23c2aae691a",
+        "android_client_info": {
+          "package_name": "com.gpg214.project2firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRdWnzD5kcZ_NHgAyLDA28R1dy9H_FMiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

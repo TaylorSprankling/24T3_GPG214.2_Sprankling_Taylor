@@ -28,7 +28,7 @@ public class UserAuthentication : MonoBehaviour
     private string defaultPassword = "password";
     [SerializeField] private bool simulateNoInternet;
 
-    [HideInInspector] public static bool isUserAuthenticated;
+    private bool isUserAuthenticated;
 
     private FirebaseAuth authenticationInstance;
     private FirebaseUser userProfileData;
@@ -45,7 +45,7 @@ public class UserAuthentication : MonoBehaviour
             yield break;
         }
 
-        InitializeFirebase();
+        authenticationInstance = FirebaseAuth.DefaultInstance;
 
         if (authenticationInstance == null)
         {
@@ -65,12 +65,11 @@ public class UserAuthentication : MonoBehaviour
             {
                 yield return null;
             }
-
-            mainMenuScreenPanel.gameObject.SetActive(false);
-            loginScreenPanel.gameObject.SetActive(false);
+            LoadSceneButton.LoadScene("TaylorExampleScene");
         }
     }
 
+    #region |   UI Setup   |
     private void SetupMainMenu()
     {
         existingUserButton.onClick.RemoveAllListeners();
@@ -114,11 +113,7 @@ public class UserAuthentication : MonoBehaviour
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(SetupMainMenu);
     }
-
-    private void InitializeFirebase()
-    {
-        authenticationInstance = FirebaseAuth.DefaultInstance;
-    }
+    #endregion
 
     private void CreateUser()
     {
@@ -174,6 +169,7 @@ public class UserAuthentication : MonoBehaviour
         {
             Debug.Log($"New user creation failed {creatingUserTask.Exception}");
         }
+
         LogInOrCreateUserRoutine = null;
         yield return null;
     }
@@ -199,6 +195,7 @@ public class UserAuthentication : MonoBehaviour
         {
             Debug.Log($"Failed to sign in user {signInUserTask.Exception}");
         }
+
         LogInOrCreateUserRoutine = null;
         yield return null;
     }

@@ -4,8 +4,9 @@ using UnityEngine;
 public class PlayerSaveData
 {
     public string PlayerName;
-    public string PlayerHealth;
+    public int PlayerHealth;
     public Vector3 PlayerPosition;
-    public float MasterVolume;
-    public float SFXVolume;
+    public float VolumeMaster;
+    public float VolumeSFX;
+    public string UTCDateTimeModified;
 }

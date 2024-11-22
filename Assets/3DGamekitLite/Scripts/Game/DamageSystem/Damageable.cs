@@ -24,7 +24,7 @@ namespace Gamekit3D
         public float hitForwardRotation = 360.0f;
 
         public bool isInvulnerable { get; set; }
-        public int currentHitPoints { get; private set; }
+        public int currentHitPoints { get; private set; } // (Taylor) Didn't want to change this to avoid changing the HealthUI script as well as fields on prefabs
 
         public UnityEvent OnDeath, OnReceiveDamage, OnHitWhileInvulnerable, OnBecomeVulnerable, OnResetDamage;
 
@@ -37,10 +37,10 @@ namespace Gamekit3D
 
         System.Action schedule;
 
-        void Start()
+        private void Awake() // (Taylor) Changed to awake (from start) to be called before other start methods allowing me to set health due to currentHitPoints being a property without a serialized field
         {
-            ResetDamage();
             m_Collider = GetComponent<Collider>();
+            ResetDamage();
         }
 
         void Update()
@@ -55,6 +55,12 @@ namespace Gamekit3D
                     OnBecomeVulnerable.Invoke();
                 }
             }
+        }
+
+        public void SetHealth(int health) // (Taylor) Lets me set health directly
+        {
+            currentHitPoints = health;
+            OnResetDamage.Invoke();
         }
 
         public void ResetDamage()

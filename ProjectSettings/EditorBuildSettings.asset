@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/ExampleScene.unity
-    guid: 12dd7bb27c47ea1458c8d4ecd98af2cc
+    path: Assets/TaylorSprankling/Scenes/LoginScreen.unity
+    guid: 4a6d4a16789abf545a8d665cd381230f
+  - enabled: 1
+    path: Assets/TaylorSprankling/Scenes/TaylorExampleScene.unity
+    guid: d44952d09f734fb4684e5d73dab1e5e6
   m_configObjects: {}

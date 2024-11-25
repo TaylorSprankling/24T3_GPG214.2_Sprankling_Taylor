@@ -2,6 +2,7 @@ using UnityEngine;
 using Gamekit3D.Message;
 using System.Collections;
 using UnityEngine.XR.WSA;
+using Unity.Services.Analytics;
 
 namespace Gamekit3D
 {
@@ -289,6 +290,8 @@ namespace Gamekit3D
                     m_VerticalSpeed = jumpSpeed;
                     m_IsGrounded = false;
                     m_ReadyToJump = false;
+                    AnalyticsService.Instance.RecordEvent(GameAnalyticsEvents.OnPlayerJumpedEvent); // (Taylor) Record the jump event
+                    Debug.Log("Recorded player jump event");
                 }
             }
             else

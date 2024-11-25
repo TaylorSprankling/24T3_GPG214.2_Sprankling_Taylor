@@ -21,8 +21,8 @@ public class UserSavingAndLoading : MonoBehaviour
     private Coroutine interactingWithDatabaseRoutine;
 
     [SerializeField] private string userID;
-    [SerializeField] private PlayerSaveData localPlayerData;
-    [SerializeField] private PlayerSaveData databasePlayerData;
+    private PlayerSaveData localPlayerData;
+    private PlayerSaveData databasePlayerData;
 
     [SerializeField] private AudioMixer audioMixer;
 
@@ -37,6 +37,7 @@ public class UserSavingAndLoading : MonoBehaviour
             Directory.CreateDirectory(folderPath);
         }
         localPlayerData = null;
+        databasePlayerData = null;
     }
 
     private IEnumerator Start()
@@ -44,7 +45,7 @@ public class UserSavingAndLoading : MonoBehaviour
         if (Application.internetReachability == NetworkReachability.NotReachable || simulateNoInternet)
         {
             Debug.LogWarning("No internet");
-            LoadLocalPlayerData();
+            LoadPlayerData();
             yield break;
         }
 
@@ -53,11 +54,22 @@ public class UserSavingAndLoading : MonoBehaviour
         if (authenticationInstance == null)
         {
             Debug.LogError("No authentication");
+            LoadPlayerData();
             yield break;
         }
 
         userProfileData = authenticationInstance.CurrentUser;
-        userID = userProfileData.UserId;
+        if (!string.IsNullOrEmpty(userID))
+        {
+            userID = userProfileData.UserId;
+        }
+        else
+        {
+            LoadPlayerData();
+            Debug.Log("No user logged in");
+            yield break;
+        }
+
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
         LoadPlayerData();
         yield return null;
@@ -90,6 +102,7 @@ public class UserSavingAndLoading : MonoBehaviour
         localPlayerData.UTCDateTimeModified = DateTime.UtcNow.ToString();
         string saveDataString = JsonUtility.ToJson(localPlayerData, true); // Convert to json string
         File.WriteAllText(filePath, saveDataString); // Save to file
+        Debug.Log($"{userProfileData.DisplayName} game data saved locally");
         interactingWithDatabaseRoutine = StartCoroutine(SavePlayerDataToServer());
     }
 
@@ -98,7 +111,7 @@ public class UserSavingAndLoading : MonoBehaviour
         // Check for internet connection
         if (Application.internetReachability == NetworkReachability.NotReachable || simulateNoInternet)
         {
-            Debug.LogError("No internet");
+            Debug.LogError("No internet, can't save to server");
             interactingWithDatabaseRoutine = null;
             yield break;
         }
@@ -113,12 +126,12 @@ public class UserSavingAndLoading : MonoBehaviour
 
         if (sendJson.IsFaulted)
         {
-            Debug.LogError("Error with saving player game data");
+            Debug.LogError("Error with saving player game data to server");
             interactingWithDatabaseRoutine = null;
             yield break;
         }
 
-        Debug.Log($"{userProfileData.DisplayName} game data saved");
+        Debug.Log($"{userProfileData.DisplayName} game data saved to server");
         interactingWithDatabaseRoutine = null;
         yield return null;
     }
@@ -142,9 +155,9 @@ public class UserSavingAndLoading : MonoBehaviour
         }
 
         // Check for internet connection
-        if (Application.internetReachability == NetworkReachability.NotReachable || simulateNoInternet)
+        if (Application.internetReachability == NetworkReachability.NotReachable || simulateNoInternet || string.IsNullOrEmpty(userID))
         {
-            Debug.LogWarning("No internet. Loading local player data");
+            Debug.LogWarning("No internet or user logged in");
             LoadLocalPlayerData();
             interactingWithDatabaseRoutine = null;
             yield break;
@@ -159,7 +172,7 @@ public class UserSavingAndLoading : MonoBehaviour
 
         if (userData.IsFaulted || userData.IsCanceled)
         {
-            Debug.LogError("Error with loading server data, attempting to load local data instead");
+            Debug.LogError("Error with loading server data");
             LoadLocalPlayerData();
             interactingWithDatabaseRoutine = null;
             yield break;
@@ -170,7 +183,7 @@ public class UserSavingAndLoading : MonoBehaviour
 
         if (string.IsNullOrEmpty(returnedJson))
         {
-            Debug.LogWarning("Server player data was null or empty, attempting to load local data instead");
+            Debug.LogWarning("Server player data was null or empty");
             LoadLocalPlayerData();
             interactingWithDatabaseRoutine = null;
             yield break;
@@ -188,6 +201,7 @@ public class UserSavingAndLoading : MonoBehaviour
             if (DateTime.Parse(databasePlayerData.UTCDateTimeModified) < DateTime.Parse(localPlayerData.UTCDateTimeModified))
             {
                 interactingWithDatabaseRoutine = StartCoroutine(SavePlayerDataToServer()); // Save the local data to the server
+                Debug.Log("Saved local data to server as it was more recent");
                 yield break;
             }
         }
@@ -210,12 +224,17 @@ public class UserSavingAndLoading : MonoBehaviour
     {
         if (localPlayerData != null)
         {
+            Debug.Log("Loading from local data instead");
             GameObject player = FindObjectOfType<CharacterController>().gameObject; // Get the player character
             player.GetComponent<Damageable>().SetHealth(localPlayerData.PlayerHealth);
             player.transform.position = localPlayerData.PlayerPosition;
             FindObjectOfType<PlayerNamePlate>().GetComponentInChildren<TextMeshProUGUI>().text = localPlayerData.PlayerName;
             audioMixer.SetFloat("MasterVolume", localPlayerData.VolumeMaster);
             audioMixer.SetFloat("SFXVolume", localPlayerData.VolumeSFX);
+        }
+        else
+        {
+            Debug.Log("No data loaded as there was no local save file");
         }
     }
 }

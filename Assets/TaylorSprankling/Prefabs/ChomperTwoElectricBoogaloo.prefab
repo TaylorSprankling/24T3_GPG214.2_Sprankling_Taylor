@@ -3462,6 +3462,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4111328061247126}
   - component: {fileID: 95449222272042074}
+  - component: {fileID: 3906247345676104087}
   - component: {fileID: 114290622220327500}
   - component: {fileID: 114700785457422906}
   - component: {fileID: 114675004760664532}
@@ -3516,6 +3517,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3906247345676104087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722084123150156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76becf3515b1f9438095c45384eb2af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114290622220327500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3563,7 +3576,19 @@ MonoBehaviour:
   hitForwardRotation: 360
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3906247345676104087}
+        m_TargetAssemblyTypeName: EnemyKilledAnalytic, Assembly-CSharp
+        m_MethodName: RecordEnemyKilled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnReceiveDamage:
     m_PersistentCalls:
       m_Calls: []

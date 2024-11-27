@@ -9,7 +9,7 @@ public class FileDownloader : MonoBehaviour
     [SerializeField] private bool downloadOnStart = true;
     [SerializeField] private bool downloadOnKeypress = false;
     [SerializeField] private KeyCode downloadKey = KeyCode.None;
-    [SerializeField] private List<MetadataScriptableObject> filesToDownload = new List<MetadataScriptableObject>();
+    [SerializeField] private List<MetadataFile> filesToDownload = new List<MetadataFile>();
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class FileDownloader : MonoBehaviour
 
     private IEnumerator CheckAndDownloadFiles()
     {
-        foreach (MetadataScriptableObject metadata in filesToDownload)
+        foreach (MetadataFile metadata in filesToDownload)
         {
             // Get the meta data version
             metadata.CheckLocalVersion();

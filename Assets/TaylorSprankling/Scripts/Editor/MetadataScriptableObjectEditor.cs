@@ -4,14 +4,14 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MetadataScriptableObject))]
+[CustomEditor(typeof(MetadataFile))]
 public class MetadataScriptableObjectEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        MetadataScriptableObject metadata = (MetadataScriptableObject)target;
+        MetadataFile metadata = (MetadataFile)target;
 
         if (GUILayout.Button("Export metadata as Json"))
         {
@@ -20,9 +20,9 @@ public class MetadataScriptableObjectEditor : Editor
         }
     }
 
-    private void ExportToJson(MetadataScriptableObject metadata)
+    private void ExportToJson(MetadataFile metadata)
     {
-        MetadataFile metadataFile = new MetadataFile
+        MetadataFileContents metadataFile = new MetadataFileContents
         {
             version = metadata.version,
             fileLink = metadata.associatedFileLink

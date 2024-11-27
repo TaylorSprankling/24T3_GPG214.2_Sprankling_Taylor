@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34636b22ce6853842b236b73871000ac, type: 3}
+  m_Name: SuperBossEnemy
+  m_EditorClassIdentifier: 
+  displayName: Super Boss Enemy
+  uiSprite: {fileID: 0}
+  itemUnlockedPrefab: {fileID: 1722084123150156, guid: 412d8b3744acbc643bdf3da7b151ccaa,
+    type: 3}
+  actionsToUnlock: 3
+  goalReached: 0
+  unlockableItemData:
+    unlockableFolder: Unlockables
+    unlockableID: super_boss_enemy
+    CurrentActionsRecorded: 0
+    IsUnlocked: 0
+    HasPreviouslyBeenDisplayed: 0

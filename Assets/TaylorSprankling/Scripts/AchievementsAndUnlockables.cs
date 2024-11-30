@@ -61,7 +61,7 @@ public class AchievementsAndUnlockables : MonoBehaviour
                 }
 
             }
-            if (Application.internetReachability != NetworkReachability.NotReachable || (FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId)))
+            if (Application.internetReachability != NetworkReachability.NotReachable && FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId))
             {
                 StartCoroutine(achievement.UnlockableData.SaveData(FirebaseDatabase.DefaultInstance.RootReference, FirebaseAuth.DefaultInstance.CurrentUser.UserId));
             }
@@ -97,7 +97,7 @@ public class AchievementsAndUnlockables : MonoBehaviour
                 }
             }
 
-            if (Application.internetReachability != NetworkReachability.NotReachable || (FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId)))
+            if (Application.internetReachability != NetworkReachability.NotReachable && FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId))
             {
                 StartCoroutine(unlockable.UnlockableData.SaveData(FirebaseDatabase.DefaultInstance.RootReference, FirebaseAuth.DefaultInstance.CurrentUser.UserId));
             }
@@ -106,7 +106,7 @@ public class AchievementsAndUnlockables : MonoBehaviour
 
     private IEnumerator LoadAllAchievements()
     {
-        if (Application.internetReachability != NetworkReachability.NotReachable || (FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId)))
+        if (Application.internetReachability != NetworkReachability.NotReachable && FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId))
         {
             for (int i = 0; i < allAchievementItems.Count; i++)
             {
@@ -119,7 +119,7 @@ public class AchievementsAndUnlockables : MonoBehaviour
 
     private IEnumerator LoadAllUnlockables()
     {
-        if (Application.internetReachability != NetworkReachability.NotReachable || (FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId)))
+        if (Application.internetReachability != NetworkReachability.NotReachable && FirebaseAuth.DefaultInstance.CurrentUser != null && !string.IsNullOrEmpty(FirebaseAuth.DefaultInstance.CurrentUser.UserId))
         {
             for (int i = 0; i < allUnlockables.Count; i++)
             {
